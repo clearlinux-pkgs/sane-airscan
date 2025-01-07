@@ -1,0 +1,4 @@
+# Move sane config elements from /etc to /usr/share/defaults
+mkdir -p %{buildroot}/usr/share/defaults/sane/dll.d
+mv %{buildroot}/etc/sane.d/*.conf %{buildroot}/usr/share/defaults/sane/
+mv %{buildroot}/etc/sane.d/dll.d/* %{buildroot}/usr/share/defaults/sane/dll.d/

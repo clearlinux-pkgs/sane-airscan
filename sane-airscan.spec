@@ -7,13 +7,14 @@
 #
 Name     : sane-airscan
 Version  : 0.99.31
-Release  : 1
+Release  : 2
 URL      : https://github.com/alexpevzner/sane-airscan/archive/0.99.31/sane-airscan-0.99.31.tar.gz
 Source0  : https://github.com/alexpevzner/sane-airscan/archive/0.99.31/sane-airscan-0.99.31.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
 Requires: sane-airscan-bin = %{version}-%{release}
+Requires: sane-airscan-data = %{version}-%{release}
 Requires: sane-airscan-lib = %{version}-%{release}
 Requires: sane-airscan-license = %{version}-%{release}
 Requires: sane-airscan-man = %{version}-%{release}
@@ -39,15 +40,25 @@ scanners and MFPs support "driverless" scanning.
 %package bin
 Summary: bin components for the sane-airscan package.
 Group: Binaries
+Requires: sane-airscan-data = %{version}-%{release}
 Requires: sane-airscan-license = %{version}-%{release}
 
 %description bin
 bin components for the sane-airscan package.
 
 
+%package data
+Summary: data components for the sane-airscan package.
+Group: Data
+
+%description data
+data components for the sane-airscan package.
+
+
 %package lib
 Summary: lib components for the sane-airscan package.
 Group: Libraries
+Requires: sane-airscan-data = %{version}-%{release}
 Requires: sane-airscan-license = %{version}-%{release}
 
 %description lib
@@ -79,7 +90,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1736289469
+export SOURCE_DATE_EPOCH=1736289873
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -118,6 +129,12 @@ mkdir -p %{buildroot}/usr/share/package-licenses/sane-airscan
 cp %{_builddir}/sane-airscan-%{version}/COPYING %{buildroot}/usr/share/package-licenses/sane-airscan/4cc77b90af91e615a64ae04893fdffa7939db84c || :
 GOAMD64=v2
 DESTDIR=%{buildroot} ninja -C builddir install
+## install_append content
+# Move sane config elements from /etc to /usr/share/defaults
+mkdir -p %{buildroot}/usr/share/defaults/sane/dll.d
+mv %{buildroot}/etc/sane.d/*.conf %{buildroot}/usr/share/defaults/sane/
+mv %{buildroot}/etc/sane.d/dll.d/* %{buildroot}/usr/share/defaults/sane/dll.d/
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -125,6 +142,11 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/airscan-discover
+
+%files data
+%defattr(-,root,root,-)
+/usr/share/defaults/sane/airscan.conf
+/usr/share/defaults/sane/dll.d/airscan
 
 %files lib
 %defattr(-,root,root,-)

@@ -1,0 +1,8 @@
+0.99.31
+gnutls-dev
+pkgconfig(avahi-client)
+pkgconfig(gnutls)
+pkgconfig(libjpeg)
+pkgconfig(libpng)
+pkgconfig(libtiff-4)
+pkgconfig(libxml-2.0)

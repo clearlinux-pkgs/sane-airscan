@@ -1,0 +1,7 @@
+/etc/:
+/etc/sane.d/dll.d:
+/etc/sane.d:
+airscan
+airscan.conf
+dll.d
+sane.d

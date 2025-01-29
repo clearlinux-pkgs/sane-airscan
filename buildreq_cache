@@ -1,4 +1,4 @@
-0.99.31
+0.99.32
 gnutls-dev
 pkgconfig(avahi-client)
 pkgconfig(gnutls)
